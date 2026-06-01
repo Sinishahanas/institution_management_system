@@ -1,0 +1,783 @@
+@startuml
+' --- Style adjustments for better readability ---
+skinparam class {
+    BackgroundColor White
+    ArrowColor DarkSlateGray
+    BorderColor DarkSlateGray
+    FontName Arial
+}
+
+skinparam note {
+  BackgroundColor LightYellow
+  FontName Arial
+}
+
+
+' --- Classes ---
+/**
+ * Purpose: Represents the top-level organizational entity, encapsulating the overall business, its name, and the brands it operates under.
+ * @class Organization
+ */
+class Organization {
+   /**
+     * @property {string} name - The official name of the organization.
+     */
+    private name: string;
+    /**
+     * @property {string[]} brands - A list of brand names associated with the organization.
+     */
+    private brands: string[];
+    // No example needed as it's a foundational entity, not directly instantiated for usage demonstration.
+}
+
+
+/**
+ * Purpose: Represents a physical branch location of the organization, each with a unique code, geographical location, and physical address.
+ * @class Branch
+ */
+class Branch {
+   /**
+     * @property {string} branchCode - A unique identifier for the branch.
+     */
+    -branchCode : String
+    /**
+     * @property {string} location - The general geographical location of the branch.
+     */
+    -location : String
+    /**
+     * @property {string} address - The physical address of the branch.
+     */
+    -address : String
+    // Example: Not applicable for a foundational entity class.
+}
+
+
+
+/**
+ * Purpose: Represents a department within the organization, such as "Mathematics" or "Arts", which groups courses and personnel.
+ * @class Department
+ */
+class Department {
+    /**
+     * @property {string} departmentName - The name of the department.
+     */
+    private departmentName: string;
+    // Example: Not applicable for a foundational entity class.
+}
+
+
+
+/**
+ * Purpose: Represents a specific course offered by a department, including details like code, name, associated department, and difficulty level.
+ * @class Course
+ */
+class Course {
+    /**
+     * @property {string} courseCode - A unique code for the course.
+     */
+    private courseCode: string;
+    /**
+     * @property {string} courseName - The full name of the course.
+     */
+    private courseName: string;
+    /**
+     * @property {Department} department - The department offering this course.
+     */
+    private department: Department;
+    /**
+     * @property {string} level - The difficulty or advancement level of the course (e.g., 'Beginner', 'Intermediate', 'Advanced').
+     */
+    private level: string;
+    
+     /**
+     * Purpose: Retrieves the fee for the course. The actual fee might be determined by associated CourseFee objects.
+     * @returns {Money} The fee amount for the course.
+     * @example
+     * const mathCourse = new Course();
+     * // ... (set course properties)
+     * const fee = mathCourse.getCourseFee();
+     * console.log(`Course fee: ${fee.toFixed(2)}`);
+     */
+    public getCourseFee(): Money {
+        // Implementation to fetch or calculate course fee
+        return new Money(0); // Placeholder
+    }
+}
+
+
+
+
+/**
+ * Purpose: Represents the fee structure for a specific course, defining how much a course costs and its payment frequency.
+ * @class CourseFee
+ */
+class CourseFee {
+    /**
+     * @property {Course} course - The course to which this fee applies.
+     */
+    private course: Course;
+    /**
+     * @property {string} frequency - The frequency of the fee (e.g., "monthly", "per-session", "one-time").
+     */
+    private frequency: string;
+    /**
+     * @property {Money} amount - The monetary amount of the fee.
+     */
+    private amount: Money;
+    // Example: Not applicable as it's typically managed internally with Course.
+}
+
+
+
+/**
+ * Purpose: Represents a student enrolled in the organization's programs, containing personal details, contact information, and transportation needs.
+ * @class Student
+ */
+class Student {
+    /**
+     * @property {string} studentID - A unique identifier for the student.
+     */
+    private studentID: string;
+    /**
+     * @property {string} firstName - The student's first name.
+     */
+    private firstName: string;
+    /**
+     * @property {string} lastName - The student's last name.
+     */
+    private lastName: string;
+    /**
+     * @property {Date} dateOfBirth - The student's date of birth.
+     */
+    private dateOfBirth: Date;
+    /**
+     * @property {string} contactNumber - The student's primary contact number.
+     */
+    private contactNumber: string;
+    /**
+     * @property {string} email - The student's email address.
+     */
+    private email: string;
+    /**
+     * @property {boolean} needsTransportation - Indicates if the student requires transportation services.
+     */
+    private needsTransportation: boolean;
+
+    /**
+     * Purpose: Registers the student for a specific course within a given batch.
+     * @param {Course} course - The course the student is registering for.
+     * @param {Batch} batch - The specific batch in which the student will enroll.
+     * @returns {void}
+     * @example
+     * const student = new Student();
+     * // ... (set student properties)
+     * const course = new Course();
+     * const batch = new Batch();
+     * student.registerForCourse(course, batch);
+     */
+    public registerForCourse(course: Course, batch: Batch): void {
+        // Implementation for course registration
+    }
+
+    /**
+     * Purpose: Records a payment made by the student.
+     * @param {Payment} payment - The payment object to record.
+     * @returns {void}
+     * @example
+     * const student = new Student();
+     * // ...
+     * const payment = new Payment();
+     * // ... (set payment properties)
+     * student.recordPayment(payment);
+     */
+    public recordPayment(payment: Payment): void {
+        // Implementation to record payment
+    }
+}
+
+
+
+/**
+ * Purpose: Represents a specific instance or group for a course, taught by a teacher at a branch, including scheduling information and start/end dates.
+ * @class Batch
+ */
+class Batch {
+   /**
+     * @property {string} batchCode - A unique code for the batch.
+     */
+    private batchCode: string;
+    /**
+     * @property {Course} course - The course taught in this batch.
+     */
+    private course: Course;
+    /**
+     * @property {Teacher} teacher - The teacher assigned to this batch.
+     */
+    private teacher: Teacher;
+    /**
+     * @property {Branch} branch - The branch where the batch is conducted.
+     */
+    private branch: Branch;
+    /**
+     * @property {Department} department - The department associated with this batch's course.
+     */
+    private department: Department;
+    /**
+     * @property {string} schedule - A textual description of the batch's schedule (e.g., "Mon & Thu 5pm-6pm").
+     */
+    private schedule: string;
+    /**
+     * @property {Date} startDate - The date when the batch officially starts.
+     */
+    private startDate: Date;
+    /**
+     * @property {Date} endDate - The date when the batch officially ends.
+     */
+    private endDate: Date;
+
+    /**
+     * Purpose: Adds a student to this batch.
+     * @param {Student} student - The student to be added to the batch.
+     * @returns {void}
+     * @example
+     * const batch = new Batch();
+     * // ...
+     * const student = new Student();
+     * // ...
+     * batch.addStudent(student);
+     */
+    public addStudent(student: Student): void {
+        // Implementation to add a student
+    }
+}
+
+
+
+/**
+ * Purpose: Represents a teacher employee of the organization, extending the general Employee class with specialization and department details.
+ * @class Teacher
+ * @augments Employee
+ */
+class Teacher extends Employee {
+    /**
+     * @property {Department} department - The department in which the teacher primarily teaches.
+     */
+    private department: Department;
+    /**
+     * @property {string} specialization - The area of expertise or specific subjects the teacher specializes in.
+     */
+    private specialization: string;
+    // Example: Not applicable.
+}
+
+
+
+/**
+ * Purpose: Represents an administrative employee of the organization, extending the general Employee class with role and branch management details.
+ * @class Admin
+ * @augments Employee
+ */
+class Admin extends Employee {
+    /**
+     * @property {Branch} branch - The branch this admin primarily manages or is assigned to.
+     */
+    private branch: Branch;
+    // Example: Not applicable.
+}
+
+
+
+
+/**
+ * Purpose: Records the attendance of a student for a specific batch on a given date.
+ * @class Attendance
+ */
+class Attendance {
+    /**
+     * @property {Student} student - The student whose attendance is being recorded.
+     */
+    private student: Student;
+    /**
+     * @property {Batch} batch - The batch for which attendance is being recorded.
+     */
+    private batch: Batch;
+    /**
+     * @property {Date} date - The date of the attendance record.
+     */
+    private date: Date;
+    /**
+     * @property {AttendanceStatus} status - The attendance status (e.g., Present, Absent, Leave).
+     */
+    private status: AttendanceStatus;
+    /**
+     * @property {string} notes - Any additional notes or remarks about the attendance.
+     */
+    private notes: string;
+    // Example: Not applicable.
+}
+
+
+
+/**
+ * Purpose: Enumerates the possible attendance statuses for a student in a batch.
+ * @enum {string} AttendanceStatus
+ * @example
+ * const currentStatus = AttendanceStatus.Present;
+ * if (currentStatus === AttendanceStatus.Absent) {
+ *   console.log("Student was absent.");
+ * }
+ */
+enum AttendanceStatus {
+    /** Student was present. */
+    Present = "Present",
+    /** Student was absent without a recorded reason. */
+    Absent = "Absent",
+    /** Student was absent with an approved leave. */
+    Leave = "Leave",
+    /** Student attended a makeup class or compensated for an absence. */
+    Compensation = "Compensation",
+    /** The class or session was cancelled. */
+    Cancelled = "Cancelled",
+    /** The day was a public holiday, and no class was held. */
+    PublicHoliday = "PublicHoliday",
+    /** Attendance has not yet been marked for the session. */
+    NotMarked = "NotMarked",
+}
+
+
+
+/**
+ * Purpose: Represents a student's registration for a course, including details about the registration date and associated fees.
+ * @class Registration
+ */
+class Registration {
+    /**
+     * @property {Student} student - The student who made the registration.
+     */
+    private student: Student;
+    /**
+     * @property {Course} course - The course for which the student registered.
+     */
+    private course: Course;
+    /**
+     * @property {Date} registrationDate - The date when the registration occurred.
+     */
+    private registrationDate: Date;
+    /**
+     * @property {Money} registrationFee - The fee charged for the registration.
+     */
+    private registrationFee: Money;
+    /**
+     * @property {Money} transportationFee - The transportation fee, if applicable, at the time of registration.
+     */
+    private transportationFee: Money;
+    // Example: Not applicable.
+}
+
+
+
+/**
+ * Purpose: Represents a financial payment made by a student, including payment details like amount, date, method, and type.
+ * @class Payment
+ */
+class Payment {
+    /**
+     * @property {string} paymentID - A unique identifier for the payment.
+     */
+    private paymentID: string;
+    /**
+     * @property {Student} student - The student who made the payment.
+     */
+    private student: Student;
+    /**
+     * @property {Money} amount - The monetary amount of the payment.
+     */
+    private amount: Money;
+    /**
+     * @property {Date} paymentDate - The date when the payment was made.
+     */
+    private paymentDate: Date;
+    /**
+     * @property {string} paymentMethod - The method used for payment (e.g., "Cash", "Card", "Bank Transfer").
+     */
+    private paymentMethod: string;
+    /**
+     * @property {PaymentType} paymentType - The category or purpose of the payment (e.g., RegistrationFee, CourseFee).
+     */
+    private paymentType: PaymentType;
+    /**
+     * @property {string} notes - Any additional notes or remarks about the payment.
+     */
+    private notes: string;
+    /**
+     * @property {Invoice} invoice - The invoice associated with this payment, if any.
+     */
+    private invoice: Invoice;
+    // Example: Not applicable.
+}
+
+
+
+/**
+ * Purpose: Enumerates the different types or purposes of payments.
+ * @enum {string} PaymentType
+ * @example
+ * const paymentPurpose = PaymentType.CourseFee;
+ * if (paymentPurpose === PaymentType.RegistrationFee) {
+ *   console.log("This is a registration payment.");
+ * }
+ */
+enum PaymentType {
+    /** Payment for registration fees. */
+    RegistrationFee = "RegistrationFee",
+    /** Payment for course fees. */
+    CourseFee = "CourseFee",
+    /** Payment for transportation services. */
+    TransportationFee = "TransportationFee",
+    /** Payment for uniforms. */
+    UniformFee = "UniformFee",
+    /** Payment for books or study materials. */
+    BookFee = "BookFee",
+    /** Payment for other miscellaneous fees. */
+    OtherFee = "OtherFee",
+}
+
+
+
+/**
+ * Purpose: Represents a financial invoice issued to a student, detailing invoice number, dates, total amount, and status.
+ * @class Invoice
+ */
+class Invoice {
+    /**
+     * @property {string} invoiceNumber - A unique identifier for the invoice.
+     */
+    private invoiceNumber: string;
+    /**
+     * @property {Student} student - The student to whom the invoice is issued.
+     */
+    private student: Student;
+    /**
+     * @property {Date} invoiceDate - The date when the invoice was generated/issued.
+     */
+    private invoiceDate: Date;
+    /**
+     * @property {Date} dueDate - The date by which the invoice amount is expected to be paid.
+     */
+    private dueDate: Date;
+    /**
+     * @property {Money} totalAmount - The total monetary amount due on the invoice.
+     */
+    private totalAmount: Money;
+    /**
+     * @property {InvoiceStatus} status - The current status of the invoice (e.g., Issued, Paid, Overdue).
+     */
+    private status: InvoiceStatus;
+    /**
+     * @property {Money} vat - The Value Added Tax amount applied to the invoice.
+     */
+    private vat: Money;
+    // Example: Not applicable.
+}
+
+
+
+/**
+ * Purpose: Enumerates the possible statuses of an invoice.
+ * @enum {string} InvoiceStatus
+ * @example
+ * const invoiceState = InvoiceStatus.Issued;
+ * if (invoiceState === InvoiceStatus.Overdue) {
+ *   console.log("Action required: Invoice is overdue.");
+ * }
+ */
+enum InvoiceStatus {
+    /** Invoice is in draft stage, not yet issued. */
+    Draft = "Draft",
+    /** Invoice has been issued to the student. */
+    Issued = "Issued",
+    /** Invoice has been fully paid. */
+    Paid = "Paid",
+    /** Invoice due date has passed without full payment. */
+    Overdue = "Overdue",
+    /** Invoice has been cancelled. */
+    Cancelled = "Cancelled",
+    /** Invoice has been fully or partially settled by a credit note. */
+    Credited = "Credited",
+}
+
+
+
+/**
+ * Purpose: Represents a single line item within an invoice, detailing its description, amount, and any applied discount.
+ * @class InvoiceItem
+ */
+class InvoiceItem {
+    /**
+     * @property {Invoice} invoice - The invoice to which this item belongs.
+     */
+    private invoice: Invoice;
+    /**
+     * @property {string} description - A description of the invoice item (e.g., "Course Fee - English Level 1").
+     */
+    private description: string;
+    /**
+     * @property {Money} amount - The monetary amount for this specific item before any discounts.
+     */
+    private amount: Money;
+    /**
+     * @property {Money} discount - The discount amount applied to this specific item.
+     */
+    private discount: Money;
+    // Example: Not applicable.
+}
+
+
+
+/**
+ * Purpose: Represents a discount that can be applied to fees or invoices, including details about the discount type, amount/percentage, and validity period.
+ * @class Discount
+ */
+class Discount {
+    /**
+     * @property {string} discountCode - A unique code to identify the discount.
+     */
+    private discountCode: string;
+    /**
+     * @property {DiscountType} discountType - The type of discount (e.g., EarlyPayment, Affiliate).
+     */
+    private discountType: DiscountType;
+    /**
+     * @property {Money} discountAmount - The monetary amount of the discount, or the value if it's a percentage.
+     */
+    private discountAmount: Money;
+    /**
+     * @property {Date} validFrom - The date from which the discount is valid.
+     */
+    private validFrom: Date;
+    /**
+     * @property {Date} validTo - The date until which the discount is valid.
+     */
+    private validTo: Date;
+    /**
+     * @property {string} description - A detailed description of the discount.
+     */
+    private description: string;
+    // Example: Not applicable.
+}
+
+
+
+
+/**
+ * Purpose: Enumerates the different types of discounts that can be applied.
+ * @enum {string} DiscountType
+ * @example
+ * const discountType = DiscountType.EarlyPayment;
+ * if (discountType === DiscountType.Affiliate) {
+ *   console.log("This discount is for affiliates.");
+ * }
+ */
+enum DiscountType {
+    /** Discount applied for early payment of fees. */
+    EarlyPayment = "EarlyPayment",
+    /** Discount applied due to an affiliation or referral. */
+    Affiliate = "Affiliate",
+    /** Any other type of discount not specifically categorized. */
+    Other = "Other",
+}
+
+
+
+
+/**
+ * Purpose: Represents a credit note issued to a student, reducing their outstanding balance, including details about credit note number, amount, reason, and reference to an original invoice.
+ * @class CreditNote
+ */
+class CreditNote {
+    /**
+     * @property {string} creditNoteNumber - A unique identifier for the credit note.
+     */
+    private creditNoteNumber: string;
+    /**
+     * @property {Student} student - The student to whom the credit note is issued.
+     */
+    private student: Student;
+    /**
+     * @property {Date} issueDate - The date when the credit note was issued.
+     */
+    private issueDate: Date;
+    /**
+     * @property {Money} amount - The monetary value of the credit.
+     */
+    private amount: Money;
+    /**
+     * @property {string} reason - The reason for issuing the credit note.
+     */
+    private reason: string;
+    /**
+     * @property {Invoice} originalInvoice - The original invoice to which this credit note might be applied or related.
+     */
+    private originalInvoice: Invoice;
+    // Example: Not applicable.
+}
+
+
+
+
+/**
+ * Purpose: Base class for all employees within the organization, containing common employee details like ID, name, role, and salary.
+ * @class Employee
+ */
+class Employee {
+    /**
+     * @property {string} employeeID - A unique identifier for the employee.
+     */
+    private employeeID: string;
+    /**
+     * @property {string} firstName - The employee's first name.
+     */
+    private firstName: string;
+    /**
+     * @property {string} lastName - The employee's last name.
+     */
+    private lastName: string;
+    /**
+     * @property {string} role - The job role or position of the employee.
+     */
+    private role: string;
+    /**
+     * @property {Money} salary - The employee's base salary.
+     */
+    private salary: Money;
+    // Example: Not applicable for a base class without direct instantiation for usage.
+}
+
+
+
+
+/**
+ * Purpose: Represents a component contributing to an employee's total salary, allowing for flexible salary structures including basic, incentives, and bonuses.
+ * @class SalaryComponent
+ */
+class SalaryComponent {
+    /**
+     * @property {Employee} employee - The employee to whom this salary component belongs.
+     */
+    private employee: Employee;
+    /**
+     * @property {SalaryType} type - The type of salary component (e.g., BasicSalary, Incentive).
+     */
+    private type: SalaryType;
+    /**
+     * @property {Money} amount - The monetary amount of this salary component.
+     */
+    private amount: Money;
+    // Example: Not applicable.
+}
+
+
+
+
+/**
+ * Purpose: Enumerates the different types of salary components an employee can have.
+ * @enum {string} SalaryType
+ * @example
+ * const componentType = SalaryType.BasicSalary;
+ * if (componentType === SalaryType.Incentive) {
+ *   console.log("This is an incentive component.");
+ * }
+ */
+enum SalaryType {
+    /** The fundamental base salary. */
+    BasicSalary = "BasicSalary",
+    /** Additional payment as an incentive. */
+    Incentive = "Incentive",
+    /** Bonus or payment related to Google reviews. */
+    GoogleReview = "GoogleReview",
+    /** Salary component based on revenue generated. */
+    RevenueBased = "RevenueBased",
+}
+
+
+
+
+/**
+ * Purpose: Represents a special activity or event offered by the organization, distinct from regular courses, with its own fees and payment options.
+ * @class SpecialActivity
+ */
+class SpecialActivity {
+    /**
+     * @property {string} activityID - A unique identifier for the special activity.
+     */
+    private activityID: string;
+    /**
+     * @property {string} activityName - The name of the special activity.
+     */
+    private activityName: string;
+    /**
+     * @property {string} description - A description of the activity.
+     */
+    private description: string;
+    /**
+     * @property {Money} fee - The fee associated with participating in the activity.
+     */
+    private fee: Money;
+    /**
+     * @property {string} paymentOption - Describes how the fee is paid (e.g., 'Recurring' or 'Fixed').
+     */
+    private paymentOption: string;
+    // Example: Not applicable.
+}
+
+
+
+/**
+ * Purpose: Records a student's registration for a specific special activity.
+ * @class EventRegistration
+ */
+class EventRegistration {
+    /**
+     * @property {Student} student - The student registering for the event.
+     */
+    private student: Student;
+    /**
+     * @property {SpecialActivity} specialActivity - The special activity the student is registering for.
+     */
+    private specialActivity: SpecialActivity;
+    /**
+     * @property {Date} registrationDate - The date of registration for the event.
+     */
+    private registrationDate: Date;
+    // Example: Not applicable.
+}
+
+
+' --- Relationships ---
+Organization "1" -- "*" Branch : has >
+Organization "1" -- "*" Department : has >
+Branch "1"--"*" Employee : employs >
+Department "1" -- "*" Course : offers >
+Course "1" -- "*" Batch : has >
+Teacher "1" -- "*" Batch : teaches >
+Branch "*" <.left.> "*" Batch: located in
+Student "*" -- "0..*" Batch : enrolled in >
+Batch "*" -- "*" Attendance : tracks >
+Student "1" -- "*" Attendance : has >
+Student "1" -- "1" Registration : has >
+Registration "1" -- "1" Course : for >
+Student "1" -- "*" Payment : makes >
+Payment "1"--"1" Invoice : related
+Invoice "1"--"*" InvoiceItem: contains >
+InvoiceItem "*" -- "0..1" Discount: applies
+Admin -- Branch : manages
+CreditNote "1" -- "1" Student : issued to >
+CreditNote "1" -- "1" Invoice: references >
+Employee <|-- Teacher
+Employee <|-- Admin
+Employee "1" -- "*" SalaryComponent: has >
+CourseFee "1"--"1" Course: for >
+SpecialActivity "1" -- "*" EventRegistration: has
+SpecialActivity "1" -- "*" EventCostume : has
+
+@enduml
